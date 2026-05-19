@@ -135,3 +135,5 @@ class SingleTapeTM:
                     head_pos = 0
 
             steps += 1
+
+           

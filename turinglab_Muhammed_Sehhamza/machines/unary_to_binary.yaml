@@ -1,0 +1,42 @@
+name: "unary_to_binary"
+description: "Unary gösterimi Binary gösterimine çevirir. Örnek: 111 -> 11"
+states: [q0, q_find_end, q_increment, q_carry, q_return, q_clean, q_accept]
+input_alphabet: ["1"]
+tape_alphabet: ["1", "0", "B", "X", "#"]
+blank: "B"
+start_state: q0
+accept_states: [q_accept]
+reject_states: []
+transitions:
+  # İlk '1'i bul ve X ile işaretle. Eğer '#' varsa sayı bitti demektir, temizliğe geç.
+  - {state: q0, read: "1", next: q_find_end, write: "X", move: R}
+  - {state: q0, read: "#", next: q_clean, write: "B", move: R}
+  - {state: q0, read: "B", next: q_accept, write: "B", move: R}
+
+  # Şeridin sonundaki '#' işaretine kadar sağa ilerle
+  - {state: q_find_end, read: "1", next: q_find_end, write: "1", move: R}
+  - {state: q_find_end, read: "#", next: q_increment, write: "#", move: R}
+  - {state: q_find_end, read: "B", next: q_increment, write: "#", move: R} # İlk defa '#' koyuyoruz
+
+  # İkili artırma mantığı (Binary Increment)
+  - {state: q_increment, read: "0", next: q_increment, write: "0", move: R}
+  - {state: q_increment, read: "1", next: q_increment, write: "1", move: R}
+  - {state: q_increment, read: "B", next: q_carry, write: "B", move: L}
+
+  - {state: q_carry, read: "0", next: q_return, write: "1", move: L}
+  - {state: q_carry, read: "1", next: q_carry, write: "0", move: L}
+  - {state: q_carry, read: "#", next: q_return, write: "1", move: L}
+
+  # Yeni bir '1' işaretlemek için en sola, 'X'lerin bittiği yere geri dön
+  - {state: q_return, read: "0", next: q_return, write: "0", move: L}
+  - {state: q_return, read: "1", next: q_return, write: "1", move: L}
+  - {state: q_return, read: "#", next: q_return, write: "#", move: L}
+  - {state: q_return, read: "X", next: q0, write: "X", move: R}
+
+  # İşlem bittiğinde şeritte kalan eski 'X' ve '#' işaretlerini temizle
+  - {state: q_clean, read: "1", next: q_clean, write: "B", move: R}
+  - {state: q_clean, read: "#", next: q_clean, write: "B", move: R}
+  - {state: q_clean, read: "X", next: q_clean, write: "B", move: R}
+  - {state: q_clean, read: "0", next: q_accept, write: "0", move: R}
+  - {state: q_clean, read: "1", next: q_accept, write: "1", move: R}
+  - {state: q_clean, read: "B", next: q_accept, write: "B", move: R}

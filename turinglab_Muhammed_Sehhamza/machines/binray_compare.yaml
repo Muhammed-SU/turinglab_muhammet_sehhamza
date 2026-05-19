@@ -1,0 +1,36 @@
+name: "binary_compare"
+description: "İki ikili sayıyı karşılaştırır. Sayı1 > Sayı2 ise kabul eder."
+states: [q0, q_match_0, q_match_1, q_check_right_0, q_check_right_1, q_accept, q_reject]
+input_alphabet: ["0", "1", "#"]
+tape_alphabet: ["0", "1", "#", "X", "Y", "B"]
+blank: "B"
+start_state: q0
+accept_states: [q_accept]
+reject_states: [q_reject]
+transitions:
+  # Sayı 1'in başındaki karakteri oku ve işaretle (0 ise X, 1 ise Y)
+  - {state: q0, read: "0", next: q_match_0, write: "X", move: R}
+  - {state: q0, read: "1", next: q_match_1, write: "Y", move: R}
+  # Eğer Sayı 1 bittiyse ama Sayı 2 bitmediyse Sayı 1 büyük olamaz -> Ret
+  - {state: q0, read: "#", next: q_reject, write: "#", move: R}
+
+  # Sayı 2'ye ulaşana kadar sağa tara
+  - {state: q_match_0, read: "0", next: q_match_0, write: "0", move: R}
+  - {state: q_match_0, read: "1", next: q_match_0, write: "1", move: R}
+  - {state: q_match_0, read: "#", next: q_check_right_0, write: "#", move: R}
+
+  - {state: q_match_1, read: "0", next: q_match_1, write: "0", move: R}
+  - {state: q_match_1, read: "1", next: q_match_1, write: "1", move: R}
+  - {state: q_match_1, read: "#", next: q_check_right_1, write: "#", move: R}
+
+  # Sağ tarafta daha önce işaretlenmemiş ilk karakteri bul ve karşılaştır
+  - {state: q_check_right_0, read: "X", next: q_check_right_0, write: "X", move: R}
+  - {state: q_check_right_0, read: "Y", next: q_check_right_0, write: "Y", move: R}
+  - {state: q_check_right_0, read: "0", next: q0, write: "X", move: L} # Eşitlik var, geri dön
+  - {state: q_check_right_0, read: "1", next: q_reject, write: "1", move: L} # 0 < 1 olduğundan ilk sayı küçük -> Ret
+
+  # Aynı mantık 1 karakteri için de geçerli
+  - {state: q_check_right_1, read: "X", next: q_check_right_1, write: "X", move: R}
+  - {state: q_check_right_1, read: "Y", next: q_check_right_1, write: "Y", move: R}
+  - {state: q_check_right_1, read: "1", next: q0, write: "Y", move: L} # Eşitlik var, geri dön
+  - {state: q_check_right_1, read: "0", next: q_accept, write: "0", move: R} # 1 > 0 olduğundan ilk sayı büyük -> Kabul
