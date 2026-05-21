@@ -1,0 +1,38 @@
+name: "parentheses_balance"
+description: "Basit parantez denge kontrolü yapar. Örnek: (()()) kabul, (() ret"
+states: [q0, q_find_closing, q_match_open, q_return, q_check_clean, q_accept, q_reject]
+input_alphabet: ["(", ")"]
+tape_alphabet: ["(", ")", "X", "B"]
+blank: "B"
+start_state: q0
+accept_states: [q_accept]
+reject_states: [q_reject]
+transitions:
+  # Başlangıçta sağa doğru ilk kapanan parantezi aramaya başla
+  - {state: q0, read: "(", next: q_find_closing, write: "(", move: R}
+  - {state: q0, read: "X", next: q0, write: "X", move: R}
+  - {state: q0, read: "B", next: q_check_clean, write: "B", move: L} # Hiç parantez kalmamış olabilir kontrol et
+  - {state: q0, read: ")", next: q_reject, write: ")", move: R} # Direkt kapanışla başlıyorsa dengesizdir
+
+  # Kapanan parantezi ')' bulana kadar sağa git, silinmişleri (X) atla
+  - {state: q_find_closing, read: "(", next: q_find_closing, write: "(", move: R}
+  - {state: q_find_closing, read: "X", next: q_find_closing, write: "X", move: R}
+  - {state: q_find_closing, read: ")", next: q_match_open, write: "X", move: L} # Bulduk! X yap ve soluna bak
+  - {state: q_find_closing, read: "B", next: q_reject, write: "B", move: L} # Kapanış bulamadan şerit bittiyse ret
+
+  # Bulunan kapanışın hemen solundaki ilk açılışı '(' ara, silinmişleri (X) atla
+  - {state: q_match_open, read: "X", next: q_match_open, write: "X", move: L}
+  - {state: q_match_open, read: "(", next: q_return, write: "X", move: L} # Açılışı bulduk ve eşleştirdik!
+  - {state: q_match_open, read: "B", next: q_reject, write: "B", move: R} # Solunda açılış yoksa ret
+
+  # Yeni bir çift aramak için şeridin en soluna (boşluğa kadar) geri dön
+  - {state: q_return, read: "(", next: q_return, write: "(", move: L}
+  - {state: q_return, read: ")", next: q_return, write: ")", move: L}
+  - {state: q_return, read: "X", next: q_return, write: "X", move: L}
+  - {state: q_return, read: "B", next: q0, write: "B", move: R}
+
+  # Şeritte hiç işlenmemiş parantez kalıp kalmadığını kontrol et
+  - {state: q_check_clean, read: "X", next: q_check_clean, write: "X", move: L}
+  - {state: q_check_clean, read: "(", next: q_reject, write: "(", move: R}
+  - {state: q_check_clean, read: ")", next: q_reject, write: ")", move: R}
+  - {state: q_check_clean, read: "B", next: q_accept, write: "B", move: R} # Şerit tamamen temiz, kabul!
