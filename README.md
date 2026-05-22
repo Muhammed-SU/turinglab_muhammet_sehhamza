@@ -1,8 +1,8 @@
 # 🎥 TuringLab Proje Demo Videosu
 
-[![TuringLab Demo Videosu]([https://img.youtube.com/vi/YOUTUBE_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID](https://www.youtube.com/watch?v=a0M8MwlHv1E))
+Hocam, proje tanıtımı ve canlı simülasyon adımlarını içeren videosuna aşağıdaki bağlantıdan ulaşabilirsiniz:
 
-👉 **[Videoyu YouTube Üzerinden İzlemek İçin Tıklayınız]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID](https://youtu.be/a0M8MwlHv1E?si=wOVLsA0FsWoqXmUB))**
+👉 **[TuringLab Proje Demo Videosu (YouTube)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID](https://youtu.be/a0M8MwlHv1E?si=v-kuaO772hGURANr))**
 # turinglab_muhammet_sehhamza
 # TURINGLAB TASARIM NOTLARI (BÖLÜM 2)
 
