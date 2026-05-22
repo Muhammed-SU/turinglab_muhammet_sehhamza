@@ -1,4 +1,4 @@
-# TURINGLAB PROJE RAPORU (BÖLÜM 3)
+# TURINGLAB PROJE RAPORU 
 
 ## 1. Giriş
 [cite_start]TuringLab, Deterministic Single-Tape Turing makinelerini simüle etmek, test etmek ve çalıştırmak amacıyla Python 3.10+ mimarisiyle sıfırdan geliştirilmiş bir yazılım motorudur[cite: 63, 88, 94]. [cite_start]Proje kapsamında, biçimsel matematiksel modeller kod dünyasına aktarılmış ve 4 farklı hesaplama problemi bu motor üzerinde çözülmüştür[cite: 17, 24].
