@@ -1,8 +1,9 @@
-# 🎥 TuringLab Proje Demo Videosu
+# TuringLab Proje Demo Videosu
 
 Hocam, proje tanıtımı ve canlı simülasyon adımlarını içeren videosuna aşağıdaki bağlantıdan ulaşabilirsiniz:
 
-👉 **[TuringLab Proje Demo Videosu (YouTube)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID](https://youtu.be/a0M8MwlHv1E?si=v-kuaO772hGURANr))**
+https://youtu.be/a0M8MwlHv1E?si=mui-1Yym6H8ddZ3p
+
 # turinglab_muhammet_sehhamza
 # TURINGLAB TASARIM NOTLARI (BÖLÜM 2)
 
